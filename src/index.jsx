@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import { hashHistory } from 'react-router'
+{/*<Router history={hashHistory} />*/}
 
-import {Router, Route} from 'react-router';
+import {Router, Route, IndexRoute} from 'react-router';
 
-class Home extends Component {
-  render(){
-    return (<h1>Hi</h1>);
-  }
-}
+import Home  from './common/home.component.jsx'
+import About from './common/about.component.jsx'
+import Main  from './common/main.component.jsx'
+import Car   from './car/car.component.jsx'
 
 render(
-  <Router>
-    {/*Each routes is defined with Route*/}
-    <Route path='/' component={Home}/>
+  <Router history={hashHistory}>
+    <Route component={Main} path="/">
+      <IndexRoute component={Home} />
+      <Route path="/cars"  component={Car}/>
+      <Route path="/about" component={About}/>
+    </Route>
   </Router>,
   document.getElementById('container')
 );
