@@ -6,9 +6,9 @@
   "scripts": {
     "watch": "webpack -d --watch",
     "build": "webpack",
-    "serve": "serve ./public"
+    "serve": "node index.js"
   },
-  "author": "",
+  "author": "Nicholas Dorans",
   "license": "ISC",
   "devDependencies": {
     "babel-loader": "^6.2.5",

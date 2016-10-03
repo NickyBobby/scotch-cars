@@ -75,16 +75,15 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	{/*<Router history={hashHistory} />*/}
-	
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRouter.Router,
-	  { history: _reactRouter.hashHistory },
+	  null,
 	  _react2.default.createElement(
 	    _reactRouter.Route,
-	    { component: _mainComponent2.default, path: '/' },
+	    { path: '/', component: _mainComponent2.default, history: _reactRouter.browserHistory },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _homeComponent2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/cars', component: _carComponent2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/cars/:id', component: CarDetail }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _aboutComponent2.default })
 	  )
 	), document.getElementById('container'));
@@ -27920,7 +27919,7 @@
   \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -27931,6 +27930,8 @@
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -27950,53 +27951,57 @@
 	  }
 	
 	  _createClass(Main, [{
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
+	        'div',
 	        null,
 	        _react2.default.createElement(
-	          "nav",
-	          { className: "navbar navbar-default" },
+	          'nav',
+	          { className: 'navbar navbar-default' },
 	          _react2.default.createElement(
-	            "div",
-	            { className: "container-fluid" },
+	            'div',
+	            { className: 'container-fluid' },
 	            _react2.default.createElement(
-	              "div",
-	              { className: "navbar-header" },
+	              'div',
+	              { className: 'navbar-header' },
 	              _react2.default.createElement(
-	                "a",
-	                { className: "navbar-brand", href: "#" },
-	                "Scotch Cars"
+	                'a',
+	                { className: 'navbar-brand', href: '#' },
+	                'Scotch Cars'
 	              )
 	            ),
 	            _react2.default.createElement(
-	              "div",
-	              { className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1" },
+	              'div',
+	              { className: 'collapse navbar-collapse', id: 'bs-example-navbar-collapse-1' },
 	              _react2.default.createElement(
-	                "ul",
-	                { className: "nav navbar-nav" },
+	                'ul',
+	                { className: 'nav navbar-nav' },
 	                _react2.default.createElement(
-	                  "li",
-	                  { className: "active" },
+	                  'li',
+	                  null,
 	                  _react2.default.createElement(
-	                    "a",
-	                    { href: "#" },
-	                    "Link ",
-	                    _react2.default.createElement(
-	                      "span",
-	                      { className: "sr-only" },
-	                      "(current)"
-	                    )
+	                    _reactRouter.Link,
+	                    { to: '/', activeClassName: 'active' },
+	                    'Home'
 	                  )
 	                ),
 	                _react2.default.createElement(
-	                  "li",
+	                  'li',
 	                  null,
 	                  _react2.default.createElement(
-	                    "a",
-	                    { href: "#" },
-	                    "Link"
+	                    _reactRouter.Link,
+	                    { to: '/cars', activeClassName: 'active' },
+	                    'Cars'
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'li',
+	                  null,
+	                  _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { to: '/about', activeClassName: 'active' },
+	                    'About'
 	                  )
 	                )
 	              )
@@ -28004,8 +28009,8 @@
 	          )
 	        ),
 	        _react2.default.createElement(
-	          "div",
-	          { className: "container" },
+	          'div',
+	          { className: 'container' },
 	          this.props.children
 	        )
 	      );
@@ -28047,19 +28052,98 @@
 	var Car = function (_Component) {
 	  _inherits(Car, _Component);
 	
-	  function Car() {
+	  // Constructor is responsible for setting up props and setting initial state
+	  function Car(props) {
 	    _classCallCheck(this, Car);
 	
-	    return _possibleConstructorReturn(this, (Car.__proto__ || Object.getPrototypeOf(Car)).apply(this, arguments));
+	    // Set initial state
+	    var _this = _possibleConstructorReturn(this, (Car.__proto__ || Object.getPrototypeOf(Car)).call(this, props));
+	    // Pass props to the parent componenet
+	
+	
+	    _this.state = {
+	      // State needed
+	      cars: []
+	    };
+	    return _this;
 	  }
 	
 	  _createClass(Car, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      // Static data
+	      var data = [{
+	        id: 1,
+	        name: 'Honda Accord Crosstour',
+	        year: '2010',
+	        model: 'Accord Crosstour',
+	        make: 'Honda',
+	        media: 'http://media.ed.edmunds-media.com/honda/accor-crosstour/2010/oem/2010_honda_accord-crosstour_4dr-hatchback_ex-1_fq_oem_4_500.jpg',
+	        price: '$16,811'
+	      }, {
+	        id: 2,
+	        name: 'Mercedes-Benz AMG GT Coupe',
+	        year: '2016',
+	        model: 'AMG',
+	        make: 'Mercedes Benz',
+	        media: 'http://media.ed.edmunds-media.com/mercedes-benz/amg-gt/2016/oem/2016_mercedes-benz_amg-gt_coupe_s_fq_oem_1_717.jpg',
+	        price: '$138,157'
+	
+	      }, {
+	        id: 3,
+	        name: 'BMW X6 SUV',
+	        year: '2016',
+	        model: 'X6',
+	        make: 'BMW',
+	        media: 'http://media.ed.edmunds-media.com/bmw/x6/2016/oem/2016_bmw_x6_4dr-suv_xdrive50i_fq_oem_1_717.jpg',
+	        price: '$68,999'
+	      }, {
+	        id: 4,
+	        name: 'Ford Edge SUV',
+	        year: '2016',
+	        model: 'Edge',
+	        make: 'Ford',
+	        media: 'http://media.ed.edmunds-media.com/ford/edge/2016/oem/2016_ford_edge_4dr-suv_sport_fq_oem_6_717.jpg',
+	        price: '$36,275'
+	      }, {
+	        id: 5,
+	        name: 'Dodge Viper Coupe',
+	        year: '2017',
+	        model: 'Viper',
+	        make: 'Dodge',
+	        media: 'http://media.ed.edmunds-media.com/dodge/viper/2017/oem/2017_dodge_viper_coupe_acr_fq_oem_3_717.jpg',
+	        price: '$123,890'
+	      }];
+	      // Update state
+	      this.setState({ cars: data });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      // Map through cars and return linked cars
+	      var carNode = this.state.cars.map(function (car) {
+	        return _react2.default.createElement(
+	          'a',
+	          {
+	            href: '#',
+	            className: 'list-group-item',
+	            key: car.id },
+	          car.name
+	        );
+	      });
 	      return _react2.default.createElement(
-	        'h1',
+	        'div',
 	        null,
-	        'Cars page'
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Cars page'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'list-group' },
+	          carNode
+	        )
 	      );
 	    }
 	  }]);
